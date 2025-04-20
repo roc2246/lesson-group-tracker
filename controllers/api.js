@@ -37,15 +37,23 @@ NAME: todays students
 INPUT: req, res, conn
 */
 
-async function todaysStudents(req, res,  conn = db.dbLogin) {
+async function todaysStudents(req, res, conn = db.dbLogin) {
   try {
     const connection = await conn();
-    const lessonDate = req.body.lesson_date
+    const lessonDate = req.body.lesson_date;
+    const ageGroup = req.body.age_group;
 
     // sql of age group for lessons by date
-    const sql = /* INSERT SQL LATER */
-    const values =[lessonDate] 
-    
+    const sql = `SELECT g.guest_id, g.name AS guest_name, g.level AS ability_level, g.birthdate AS guest_birthdate,
+       p.age_group, i.name AS instructor_name, p.lesson_date
+FROM PROGRAM p
+JOIN GUESTS g ON p.guest_id = g.guest_id
+JOIN INSTRUCTORS i ON p.instructor_id = i.instructor_id
+WHERE p.age_group = ${ageGroup} 
+AND p.lesson_date = ${lessonDate}  
+ORDER BY g.level ASC;`;
+    const values = [lessonDate, ageGroup];
+
     connection.query(sql, values, (err, results) => {
       if (err) {
         console.error("Query error:", err);
@@ -56,7 +64,6 @@ async function todaysStudents(req, res,  conn = db.dbLogin) {
     });
   } catch (error) {
     return res.status(500).json({ error: error.toString() });
-
   }
 }
 
