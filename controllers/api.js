@@ -34,18 +34,29 @@ async function retrieveLessons(req, res, sql, conn = db.dbLogin) {
 
 /* 
 NAME: todays students
-INPUT: req, res, inputted date
+INPUT: req, res, conn
 */
 
-async function todaysStudents(params) {
+async function todaysStudents(req, res,  conn = db.dbLogin) {
   try {
-    // await connection
+    const connection = await conn();
+    const lessonDate = req.body.lesson_date
+
     // sql of age group for lessons by date
-    // if error
-    // then throw error
-    // return status and json of students
+    const sql = /* INSERT SQL LATER */
+    const values =[lessonDate] 
+    
+    connection.query(sql, values, (err, results) => {
+      if (err) {
+        console.error("Query error:", err);
+        return res.status(500).json({ error: "Failed to retrieve lessons." });
+      }
+
+      return res.status(200).json({ lessons: results });
+    });
   } catch (error) {
-    // status and json error message
+    return res.status(500).json({ error: error.toString() });
+
   }
 }
 
