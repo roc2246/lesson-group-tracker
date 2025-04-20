@@ -7,7 +7,8 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-function dbLogin(con = connection) {
+
+async function dbLogin(con = connection) {
   return new Promise((resolve, reject) => {
     con.connect((err) => {
       if (err) return reject(`DB connection failed: ${err.stack.toString()}`);
@@ -16,6 +17,19 @@ function dbLogin(con = connection) {
   });
 }
 
+async function handleQuery(sql, values, connection) {
+  return new Promise((resolve, reject) => {
+    connection.query(sql, values, (err, results) => {
+      if (err) {
+        reject("Query error: " + err);
+      }
+      resolve(results);
+    });
+  });
+}
+
+
 module.exports = {
   dbLogin,
+  handleQuery
 };
