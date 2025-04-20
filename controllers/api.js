@@ -14,7 +14,6 @@ async function retrieveLessons(req, res, sql) {
 
     utilities.validateInput(instructorID,  "Instructor ID")
 
-    // CASE SWITCH?
     const values = sql.includes("lesson_date")
       ? [instructorID, lessonDate]
       : [instructorID];
