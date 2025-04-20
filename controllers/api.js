@@ -8,28 +8,18 @@ INPUT: req, res, sql, connection
 async function retrieveLessons(req, res, sql, conn = db.dbLogin) {
   try {
     const connection = await conn();
+    const instructorID = req.body.instructorID;
+    const lessonDate = req.body.lesson_date;
 
-    let query = "";
-    let values = [];
-
-    if (sql.includes("lesson_date")) {
-      query = `
-        SELECT * FROM lessons
-        WHERE instructor_id = ? AND lesson_date = ?
-      `;
-      values = [instructor_id, lesson_date];
-    } else {
-      query = `
-        SELECT lesson_date, age_group, COUNT(*) AS total_lessons
-        FROM lessons
-        WHERE instructor_id = ?
-        GROUP BY lesson_date, age_group
-        ORDER BY lesson_date ASC
-      `;
-      values = [instructor_id];
+    if (!instructorID) {
+      return res.status(400).json({ error: "Instructor ID is required." });
     }
 
-    connection.query(query, values, (err, results) => {
+    const values = sql.includes("lesson_date")
+      ? [instructorID, lessonDate]
+      : [instructorID];
+
+    connection.query(sql, values, (err, results) => {
       if (err) {
         console.error("Query error:", err);
         return res.status(500).json({ error: "Failed to retrieve lessons." });
