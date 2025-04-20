@@ -1,20 +1,20 @@
 const db = require("../db");
+const utilities = require('../utilities')
 
 /* 
 NAME: retrieve lessons
 INPUT: req, res, sql, connection
 */
 
-async function retrieveLessons(req, res, sql, conn = db.dbLogin) {
+async function retrieveLessons(req, res, sql) {
   try {
-    const connection = await conn();
+    const connection = await db.dbLogin();
     const instructorID = req.body.instructorID;
     const lessonDate = req.body.lesson_date;
 
-    if (!instructorID) {
-      return res.status(400).json({ error: "Instructor ID is required." });
-    }
+    utilities.validateInput(instructorID,  "Instructor ID")
 
+    // CASE SWITCH?
     const values = sql.includes("lesson_date")
       ? [instructorID, lessonDate]
       : [instructorID];

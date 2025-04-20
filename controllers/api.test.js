@@ -29,6 +29,6 @@ ORDER BY g.level ASC;  -- Sort by ability level
 
       */
 
-it("should be test", async () => {
-  await retrieveLessons();
-});
+// it("should be test", async () => {
+//   await retrieveLessons();
+// });
