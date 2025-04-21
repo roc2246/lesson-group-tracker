@@ -15,3 +15,9 @@ const controllers = require('../controllers/api.js')
         ORDER BY lesson_date ASC
       `;
     */
+
+// Retreive all lessons, organize by day, and get just lessons by age group
+// Retreive lesson for just one day and get just lessons by age group
+// Retrieve age group for one day and sort students by ability level
+
+
