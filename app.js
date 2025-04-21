@@ -1,13 +1,18 @@
 const express = require("express");
+const apiRouter = require("./routers/api.js");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-require('dotenv').config()
+require("dotenv").config();
+
+app.use(express.json());
+
+app.use("/api", apiRouter); 
 
 app.get("/", (req, res) => {
   res.send("<p>TEST</p>");
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port http://www.localhost:${port}`)
-  })
+  console.log(`Example app listening at http://localhost:${port}`);
+});
