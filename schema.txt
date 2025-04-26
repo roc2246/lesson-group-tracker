@@ -1,31 +1,58 @@
-Tables
+TABLES
 
 INSTRUCTORS
-instructor_id(primary key)
+
+instructor_id (Primary Key)
+
 name
+
 birthdate
+
 certs
 
 PROGRAMS
-program_id(primary key)
+
+program_id (Primary Key)
+
 program_name
+
 age_group
 
 STUDENTS
-student_id(primary key)
-program_id (one-to-one)
+
+student_id (Primary Key)
+
+program_id (Foreign Key → PROGRAMS.program_id)
+
 name
+
 birthdate
+
 level
 
 LESSONS
-lesson_id (primary key)
+
+lesson_id (Primary Key)
+
 lesson_date
-program_id (one-to-one)
-student_id (one-to-many)
-instructor_id (one-to-many)
 
+program_id (Foreign Key → PROGRAMS.program_id)
 
+LESSON_STUDENTS (linking table)
+
+lesson_id (Foreign Key → LESSONS.lesson_id)
+
+student_id (Foreign Key → STUDENTS.student_id)
+
+(Primary Key: lesson_id, student_id)
+
+LESSON_INSTRUCTORS (linking table)
+
+lesson_id (Foreign Key → LESSONS.lesson_id)
+
+instructor_id (Foreign Key → INSTRUCTORS.instructor_id)
+
+(Primary Key: lesson_id, instructor_id)
 
 PROGRAMS
 Cubs (3-6)
