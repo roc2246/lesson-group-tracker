@@ -9,7 +9,7 @@ INPUT: req, res, sql
 
 async function retrieveQuery(req, res, sql) {
   try {
-    const connection = await db.dbLogin();
+    await db.dbLogin();
     const inputs = req.body
 
     for(const dataName in inputs){
@@ -19,10 +19,11 @@ async function retrieveQuery(req, res, sql) {
     const values = Object.values(inputs);
 
     const results = await db.handleQuery(sql, values);
-    connection.end()
     return res.status(200).json({ lessons: results });
   } catch (error) {
     return res.status(500).json({ error: error.toString() });
+  } finally {
+    await db.closeConnection()
   }
 }
 

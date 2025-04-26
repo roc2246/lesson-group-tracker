@@ -28,9 +28,12 @@ async function handleQuery(sql, values, conn = connection) {
     });
   });
 }
-
+async function closeConnection() {
+  connection.destroy()
+}
 
 module.exports = {
   dbLogin,
-  handleQuery
+  handleQuery,
+  closeConnection
 };
