@@ -1,25 +1,25 @@
 Tables
 
 INSTRUCTORS
-instructor_id
+instructor_id(primary key)
 name
 birthdate
 certs
 
 PROGRAMS
-program_id
+program_id(primary key)
 program_name
 age_group
 
 STUDENTS
-student_id
+student_id(primary key)
 program_id (one-to-one)
 name
 birthdate
 level
 
 LESSONS
-lesson_id
+lesson_id (primary key)
 lesson_date
 program_id (one-to-one)
 student_id (one-to-many)
