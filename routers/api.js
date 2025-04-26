@@ -5,21 +5,28 @@ const controllers = require('../controllers/api.js')
 // GET all lessons grouped by name and date
 router.get("/all-lessons-group-name", (req, res) => {
   const sql = `
-    SELECT lesson_date, age_group, COUNT(*) AS total_lessons
-    FROM lessons
-    WHERE instructor_id = ?
-    GROUP BY lesson_date, age_group
-    ORDER BY lesson_date ASC
-  `
+  SELECT l.lesson_date, p.program_name, COUNT(*) AS total_lessons
+  FROM lessons l
+  JOIN programs p ON l.program_id = p.program_id
+  WHERE l.instructor_id = ?
+  GROUP BY l.lesson_date, p.program_name
+  ORDER BY l.lesson_date ASC
+`;
   controllers.retrieveQuery(req, res, sql)
 })
 
 // GET all lesson groups for a specific day
 router.get('/lesson-groups-for-day', (req, res) => {
   const sql = `
-    SELECT * FROM lessons
-    WHERE instructor_id = ? AND lesson_date = ?
-  `
+    SELECT l.lesson_id, l.lesson_date, p.program_name, s.name AS student_name, COUNT(*) AS total_students
+    FROM lessons l
+    JOIN programs p ON l.program_id = p.program_id
+    JOIN lesson_students ls ON l.lesson_id = ls.lesson_id
+    JOIN students s ON ls.student_id = s.student_id
+    WHERE l.instructor_id = ? AND l.lesson_date = ?
+    GROUP BY l.lesson_id, l.lesson_date, p.program_name, s.name
+    ORDER BY l.lesson_date ASC
+  `;
   controllers.retrieveQuery(req, res, sql)
 })
 
@@ -27,19 +34,20 @@ router.get('/lesson-groups-for-day', (req, res) => {
 router.get('/students-for-day', (req, res) => {
   const sql = `
     SELECT 
-      g.guest_id,
-      g.name AS guest_name,
-      g.birthdate AS guest_birthdate,
-      g.level AS ability_level,
+      s.student_id,
+      s.name AS student_name,
+      s.birthdate AS student_birthdate,
+      s.level AS ability_level,
       p.age_group,
-      p.lesson_date,
+      l.lesson_date,
       i.instructor_id,
       i.name AS instructor_name
-    FROM PROGRAM p
-    JOIN GUESTS g ON p.guest_id = g.guest_id
-    JOIN INSTRUCTORS i ON p.instructor_id = i.instructor_id
-    WHERE p.age_group = ? AND p.lesson_date = ?
-    ORDER BY g.level ASC;
+    FROM lessons l
+    JOIN programs p ON l.program_id = p.program_id
+    JOIN students s ON s.program_id = p.program_id
+    JOIN instructors i ON l.instructor_id = i.instructor_id
+    WHERE p.age_group = ? AND l.lesson_date = ?
+    ORDER BY s.level ASC;
   `
   controllers.retrieveQuery(req, res, sql)
 })
