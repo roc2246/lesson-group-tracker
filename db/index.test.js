@@ -11,13 +11,25 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-// describe('Database interaction', () => { 
+// describe("Database interaction", () => {
 //   it("should run dbLogin with regular connection", async () => {
 //     const message = await dbLogin();
 //     expect(message).toBe("Connected to the database!");
-
 //   });
-//  })
+//   it("should run query with regular connection", async () => {
+//     const sql = `
+//     SELECT name
+//     FROM instructors 
+//     WHERE instructor_id = 1
+//   `;
+//     const message = await handleQuery(sql, 1);
+//     const result = {
+//       name: "John Doe",
+//     };
+
+//     expect(message).toEqual(result);
+//   });
+// });
 
 describe("dbLogin", () => {
   it("should return mock connection message", async () => {

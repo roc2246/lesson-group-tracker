@@ -13,7 +13,7 @@ export const mockConnFail = {
 
 export const mockQuery = {
   query: vi.fn((sql, values, cb) => {
-    cb(null, { test: "DATA" });
+    cb(null, [{ test: "DATA" }]);
   })
 };
 

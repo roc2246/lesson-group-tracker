@@ -18,13 +18,13 @@ async function dbLogin(con = connection) {
   });
 }
 
-async function handleQuery(sql, values, connection) {
+async function handleQuery(sql, values, conn = connection) {
   return new Promise((resolve, reject) => {
-    connection.query(sql, values, (err, results) => {
+    conn.query(sql, values, (err, results) => {
       if (err) {
         reject("Query error: " + err);
       }
-      resolve(results);
+      resolve(results[0]);
     });
   });
 }
