@@ -3,7 +3,7 @@ const utilities = require('../utilities')
 
 /* 
 NAME: retrieveQuery
-INPUT: req, res, sql, connection
+INPUT: req, res, sql
 */
 
 
@@ -18,7 +18,7 @@ async function retrieveQuery(req, res, sql) {
 
     const values = Object.values(inputs);
 
-    const results = await db.handleQuery(sql, values, connection);
+    const results = await db.handleQuery(sql, values);
     connection.end()
     return res.status(200).json({ lessons: results });
   } catch (error) {
