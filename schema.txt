@@ -6,15 +6,28 @@ name
 birthdate
 certs
 
-PROGRAM
+PROGRAMS
 program_id
-instructor_id
-guest_id
+program_name
 age_group
-lesson_date
 
-GUESTS
-guest_id
+STUDENTS
+student_id
+program_id (one-to-one)
 name
 birthdate
 level
+
+LESSONS
+lesson_id
+lesson_date
+program_id (one-to-one)
+student_id (one-to-many)
+instructor_id (one-to-many)
+
+
+
+PROGRAMS
+Cubs (3-6)
+Bears (7-14)
+Adults (15 and up)
