@@ -24,7 +24,7 @@ async function handleQuery(sql, values, conn = connection) {
       if (err) {
         reject("Query error: " + err);
       }
-      resolve(results[0]);
+      resolve(results);
     });
   });
 }
